@@ -22,7 +22,6 @@ var evalRPN = function(tokens) {
     let stack = []
     tokens.forEach((token,index) => {
         stack.push(token)
-        console.log(stack)
         if (sign.includes(token)) {
             let result = calculate(stack[stack.length-3], stack[stack.length-2], token)
             stack.pop()
@@ -30,7 +29,6 @@ var evalRPN = function(tokens) {
             stack.pop()
             stack.push(result.toString())
         }
-        console.log(stack)
     })
 
     return Number(stack[0])
