@@ -4,27 +4,16 @@
  * @return {number}
  */
 var search = function(nums, target) {
-    let half = Math.floor(nums.length/2)
-    let left
-    let right
-    if (nums.length % 2 === 0) {
-        left = half - 1
-        right = half
-    } else {
-        left = half - 1
-        right = half + 1
+    const n = nums.length
+    const middle = Math.floor(n / 2)
+
+    for (let i = 0; i <= middle; i++) {
+        let left = i
+        let right = n - i - 1
+
+        if (nums[left] === target) return left
+        if (nums[right] === target) return right
     }
-    if (nums[half] === target) return half
-    while (left >= 0 && right <= nums.length-1) {
-        if (nums[left] === target) {
-            return left
-        }
-        if (nums[right] === target) {
-            return right
-        }
-        left--
-        right++
-    }
+
     return -1
-   
 };
