@@ -12,10 +12,22 @@
  * @return {boolean}
  */
 var isSameTree = function(p, q) {
-    if (p === null && q === null) return true
-    if (p === null || q === null) return false
-    if(p.val !== q.val) return false
+    const queue = [[p, q]]
 
-    // 두 경우다 true 일경우
-    return isSameTree(p.left, q.left) && isSameTree(p.right, q.right)
+    while (queue.length) {
+        // 각 노드 선출로 뽑아냄
+        const [node1, node2] = queue.shift()
+
+
+        if (node1 === null && node2 === null) continue
+        // 둘 중 하나라도 다음 노드가 없으면
+        if (node1 === null || node2 === null) return false
+        // 노드의 값이 다르면 
+        if (node1.val !== node2.val) return false
+
+        queue.push([node1.left, node2.left])
+        queue.push([node1.right, node2.right])
+    }
+
+    return true
 };
