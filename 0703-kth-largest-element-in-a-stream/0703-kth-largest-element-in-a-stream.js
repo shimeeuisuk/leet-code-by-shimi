@@ -1,6 +1,6 @@
 var KthLargest = function(k, nums) {
-    this.limit = k;        // 몇 번째 큰 수인지
-    this.minHeap = [];     // 작은 값이 위에 오는 힙
+    this.limit = k;      
+    this.minHeap = [];     
 
     for (const num of nums) {
         this.add(num);
@@ -8,20 +8,15 @@ var KthLargest = function(k, nums) {
 };
 
 KthLargest.prototype.add = function(value) {
-    // 값 추가
     this.minHeap.push(value);
     this.moveUp(this.minHeap.length - 1);
 
-    // k개 초과하면 가장 작은 값 제거
     if (this.minHeap.length > this.limit) {
         this.removeMin();
     }
 
-    // 루트 = k번째 큰 값
     return this.minHeap[0];
 };
-
-// ===== 힙 보조 함수 =====
 
 // 아래 → 위로 올리기
 KthLargest.prototype.moveUp = function(index) {
