@@ -7,7 +7,6 @@
 // 안겹치면 새로운 간격
 var merge = function(intervals) {
     intervals.sort((a,b)=>a[0]-b[0])
-    console.log('1', intervals)
     
     let answer = []
     let tempStart = intervals[0][0]
