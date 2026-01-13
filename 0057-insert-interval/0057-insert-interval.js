@@ -8,11 +8,9 @@ var insert = function(intervals, newInterval) {
     let [newStart, newEnd] = newInterval
 
     for (let [start, end] of intervals) {
-        if (end < newStart) {
+        if (end < newStart || start > newEnd) {
             answer.push([start, end])
-        } else if (start > newEnd) {
-            answer.push([start, end])
-        } else {
+        }else {
             newStart = Math.min(start, newStart)
             newEnd = Math.max(end, newEnd)
         }
