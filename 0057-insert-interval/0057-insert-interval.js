@@ -10,7 +10,7 @@ var insert = function(intervals, newInterval) {
     for (let [start, end] of intervals) {
         if (end < newStart || start > newEnd) {
             answer.push([start, end])
-        }else {
+        } else {
             newStart = Math.min(start, newStart)
             newEnd = Math.max(end, newEnd)
         }
