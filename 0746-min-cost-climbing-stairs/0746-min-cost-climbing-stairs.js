@@ -8,19 +8,22 @@ var minCostClimbingStairs = function(cost) {
     const n = cost.length
 
     // 두칸 전까지 최소비용 
-    let dp0 = 0
+    let costTwoStepsBefore = 0
     // 한칸 전까지 최소비용
-    let dp1 = 0
+    let costOneStepBefore = 0
 
     for (let i = 2; i <= n; i++) {
-       const curMinCost = Math.min(dp0 + cost[i-2], dp1 + cost[i-1])
-       // 다음 인덱스에서 구할 최소비용을 위해 옮겨야함 저장 해놔야함.
+       const curMinCost = Math.min(
+           costTwoStepsBefore + cost[i-2],
+           costOneStepBefore + cost[i-1]
+       )
+       // 지금 인덱스에 도달하기까지 최소비용을 구하고 있는 거임.
        // 예를 들어, 지금 4인덱스에 도달하기 위한 최소비용이 curMinCost에 담겨있으니까
        // 이제 다음 5인덱스 입장에서는 4 인덱스가 i-1이고, 3인덱스가 i-2 임
        // 그래서 하나씩 밀어야함.
-        dp0 = dp1
-        dp1 = curMinCost
+        costTwoStepsBefore = costOneStepBefore
+        costOneStepBefore = curMinCost
     }
 
-    return dp1 
+    return costOneStepBefore 
 };
