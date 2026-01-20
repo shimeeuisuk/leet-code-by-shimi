@@ -3,23 +3,17 @@
  * @return {number}
  */
 var lengthOfLongestSubstring = function(s) {
-    const set = new Set();  
-    let left = 0;           
-    let maxLen = 0;          
+    let temp = {}
+    let answer = 0
+    let start = 0
 
-    for (let right = 0; right < s.length; right++) {
-        const char = s[right]; 
-
-        // 중복이 있으면 left를 이동시키며 set에서 제거
-        while (set.has(char)) {
-            set.delete(s[left]); 
-            left++; 
-        } 
-        set.add(char); 
-
-        // 현재 윈도우 길이 갱신
-        maxLen = Math.max(maxLen, right - left + 1);
+    for (let i = 0; i < s.length; i++) {
+        if (s[i] in temp) {
+            start = Math.max(start, temp[s[i]] + 1)
+        }
+        temp[s[i]] = i
+        answer = Math.max(answer, i-start+1)
     }
 
-    return maxLen;
+    return answer
 };
