@@ -3,18 +3,11 @@
  * @param {number} target
  * @return {number[]}
  */
-
-// 1. 해쉬맵으로 풀기 
 var twoSum = function(nums, target) {
-    const map = new Map()
-
-    for (let i = 0; i < nums.length; i++) {
-        const remain = target - nums[i]
-
-        if(map.has(remain)) {
-            return [map.get(remain), i]
+    for (let i=0; i<nums.length; i++) {
+        let remainNum = target - nums[i]
+        for (let j = i+1; j < nums.length; j++) {
+            if (remainNum === nums[j]) return [i,j]
         }
-
-        map.set(nums[i], i)
     }
 };
