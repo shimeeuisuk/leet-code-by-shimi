@@ -3,59 +3,37 @@
  * @param {string} s2
  * @return {boolean}
  */
-
-
 var checkInclusion = function(s1, s2) {
-    const s1Len = s1.length
-    const s2Len = s2.length
-    // s1이 s2보다 긴거 먼저 걸러냄
-    if (s1Len > s2Len) return false
+    // s2를 s1 길이만큼 subString으로 보면서 s1을 다 가지고 있는지 보면 된다 
 
-    const s1Count = {}
-    const windowCount = {}
-    // s1Count 세팅
+    if (s1.length > s2.length) return false
+
+    const s1Map = new Map()
     for (let char of s1) {
-        s1Count[char] = (s1Count[char] || 0 ) + 1
+        s1Map.set(char, (s1Map.get(char) || 0) + 1 )
     }
 
-    // 윈도우 밀면서 윈도우의 왼쪽은 out 오른쪽은 in 하면서 windowCount 세팅
-    // s1Count와 같은지 비교
+    const windowLength = s1.length
     let left = 0
-    for (let right = 0; right < s2Len; right++) {
-        // 배열 돌면서 오른쪽 in
-        const inChar = s2[right]
-        windowCount[inChar] = (windowCount[inChar] || 0) + 1
+    for (let right = 0; right < s2.length ; right++) {
+        const rightChar = s2[right]
 
-        // 왼쪽 out (오른쪽 넣다가 윈도우가 s1 길이보다 커지게 될때)
-        // 만약 count 뺐는데 0이면 그냥 지우기, 나중에 키 비교해야하니까
-        // 왼쪽 out 시키고 left 올리기
-        if (right - left + 1 > s1Len) {
-            const outChar = s2[left]
-            windowCount[outChar] --
-            if (windowCount[outChar] === 0) delete windowCount[outChar]
+        // 오른쪽 문자 하나씩 넘기면서 있으면 지움
+        if(s1Map.has(rightChar)) {
+            s1Map.set(rightChar, s1Map.get(rightChar)-1)
+        }
+
+        // 윈도우가 비교군 길이 보다 커지면
+        if (right - left + 1 > windowLength) {
+            const leftChar = s2[left]
+
+            if(s1Map.has(leftChar)) {
+                s1Map.set(leftChar, s1Map.get(leftChar)+1)
+            }
+
             left++
         }
-
-        if (isSame(s1Count, windowCount)) {
-            return true;
-        }
-
+    if (right - left + 1 === windowLength && [...s1Map.values()].every(value => value === 0)) return true
     }
-    return false
-};
-
-// count 같은지 비교
-// 파라미터는 두 객체
-const isSame = (a, b) => {
-    const keysA = Object.keys(a);
-    const keysB = Object.keys(b);
-
-    if (keysA.length !== keysB.length) return false;
-
-    // count 비교
-    for (let k of keysA) {
-        if (a[k] !== b[k]) return false;
-    }
-
-    return true
+return false
 }
