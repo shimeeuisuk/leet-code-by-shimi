@@ -3,26 +3,27 @@
  * @return {number[][]}
  */
 var permute = function(nums) {
-    let answer = []
-    let checked = Array(nums.length).fill(false)
+    let result = []
+    let check = Array.from({length: nums.length}, ()=>0)
 
-    const backTracking = (tempArr) => {
-        if (tempArr.length === nums.length) {
-            answer.push([...tempArr])
+    const DFS = (path, index) => {
+        // 성공 조건
+        if (path.length === nums.length) {
+            result.push([...path])
             return
         }
-
+        // 순회
         for (let i = 0; i < nums.length; i++) {
-            if (checked[i]) continue
-
-            checked[i] = true
-            tempArr.push(nums[i])
-            backTracking(tempArr)
-            tempArr.pop()
-            checked[i] = false
+            path.push(nums[i])
+            if (!check[i]) {
+                check[i] = true
+                DFS(path, i)
+                check[i] = false
+            }
+            path.pop()
         }
     }
 
-    backTracking([])
-    return answer
+    DFS([],0)
+    return result
 };
