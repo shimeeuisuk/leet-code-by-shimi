@@ -6,7 +6,7 @@ var permute = function(nums) {
     let result = []
     let check = Array.from({length: nums.length}, ()=>0)
 
-    const DFS = (path, index) => {
+    const DFS = (path) => {
         // 성공 조건
         if (path.length === nums.length) {
             result.push([...path])
@@ -14,13 +14,12 @@ var permute = function(nums) {
         }
         // 순회
         for (let i = 0; i < nums.length; i++) {
+            if(check[i]) continue
             path.push(nums[i])
-            if (!check[i]) {
-                check[i] = true
-                DFS(path, i)
-                check[i] = false
-            }
+            check[i] = true
+            DFS(path)
             path.pop()
+            check[i] = false
         }
     }
 
