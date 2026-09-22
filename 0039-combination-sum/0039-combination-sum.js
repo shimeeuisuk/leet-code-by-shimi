@@ -4,22 +4,27 @@
  * @return {number[][]}
  */
 var combinationSum = function(candidates, target) {
-    let answer = [];
-
-    const backTracking = (sum, startIndex, tempAnswer) => {
-        if (sum > target) return;
+    let result = []
+    const DFS = (path, start, sum) => {
+        // 성공 조건
         if (sum === target) {
-            answer.push([...tempAnswer]);
-            return;
+            result.push([...path])                     
+            return
         }
-
-        for (let i = startIndex; i < candidates.length; i++) {
-            tempAnswer.push(candidates[i]);                 
-            backTracking(sum + candidates[i], i, tempAnswer); 
-            tempAnswer.pop();                              
+        // 실패 조건
+        if (sum > target) {
+            return
         }
-    };
-
-    backTracking(0, 0, []);
-    return answer;
+        // 순회
+        for (let i = start; i < candidates.length; i++) {
+            path.push(candidates[i])
+            sum=sum+candidates[i]
+            DFS(path, i, sum)
+            path.pop()
+            sum=sum-candidates[i]
+        }
+    }
+    
+    DFS([],0,0)
+    return result
 };
